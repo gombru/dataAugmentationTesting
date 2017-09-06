@@ -35,8 +35,8 @@ def do_solve(niter, solver, disp_interval, test_interval, test_iters, id):
             loss_disp = 'loss=%.3f, acc=%2d%%' % (loss[it], np.round(100*acc[it]))
             print '%3d) %s' % (it, loss_disp)
 
-            train_loss[it/disp_interval] = loss[it]
-            train_acc[it/disp_interval] = acc[it]
+            train_loss[it/disp_interval - 1] = loss[it]
+            train_acc[it/disp_interval - 1] = acc[it]
 
             ax1.plot(it_axes[0:it/disp_interval], train_loss[0:it/disp_interval], 'r')
             ax2.plot(it_axes[0:it/disp_interval], train_acc[0:it/disp_interval], 'b')

@@ -20,7 +20,7 @@ split_val = 'valid'
 config['dir'] = '../../datasets/102flowers/'
 
 config['mean'] = (104, 117, 123)
-config['num_labels'] = 10
+config['num_labels'] = 102
 config['batch_size'] = 100 #40 #AlexNet 100, VGG 40
 config['resize'] = True #Resize the image to the given size before cropping
 config['resize_w'] = 224
@@ -55,11 +55,11 @@ net_val = build_net(config)
 
 niter = 1000000
 base_lr = 0.001
-display_interval = 150 #150
+display_interval = 5 #150
 
 #number of validating images  is  test_iters * batchSize
-test_interval = 300
-test_iters = 150 #150
+test_interval = 10
+test_iters = 10 #150
 
 #Set solver configuration
 solver_filename = create_solver(net_train, net_val, base_lr, id)
