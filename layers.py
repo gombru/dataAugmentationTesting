@@ -57,6 +57,7 @@ class customDataLayer(caffe.Layer):
         self.crop_w = params['crop_w']
         self.crop_h = params['crop_h']
         self.crop_margin = params['crop_margin']
+        self.always_center_crop = params['always_center_crop']
         self.mirror = params['mirror']
         self.rotate_prob = params['rotate_prob']
         self.rotate_angle = params['rotate_angle']
@@ -91,7 +92,7 @@ class customDataLayer(caffe.Layer):
         print "Reading labels file: " + '{}/{}.txt'.format(self.dir, self.split)
         with open(split_f, 'r') as annsfile:
             for c, i in enumerate(annsfile):
-                data = i.split(' ')
+                data = i.split(',')
                 # Load path
                 self.indices[c] = data[0]
                 # Load labels
@@ -105,13 +106,14 @@ class customDataLayer(caffe.Layer):
         self.indices = [i.split(',', 1)[0] for i in self.indices]
 
         # make eval deterministic
-        # if 'train' not in self.split and 'trainTrump' not in self.split:
+        # if 'classification_gt/trainCitiesClassification' not in self.split:
         #     self.random = False
+        #     print "Not random image order used"
 
         self.idx = np.arange(self.batch_size)
         # randomization: seed and pick
         if self.random:
-            print "Randomizing image order"
+            print "Randomizing image order of:  " + self.split
             random.seed(self.seed)
             for x in range(0, self.batch_size):
                 self.idx[x] = random.randint(0, len(self.indices) - 1)
@@ -166,8 +168,22 @@ class customDataLayer(caffe.Layer):
         - transpose to channel x height x width order
         """
 
-        #im = Image.open('{}/{}'.format(self.dir, idx))
-        im = Image.open('{}'.format(idx))
+        im = Image.open(self.dir + 'jpg/image_' + idx + '.jpg')
+
+        if self.always_center_crop:
+            crop_size = self.crop_w
+            width, height = im.size
+            if width != crop_size:
+                left = (width - crop_size) / 2
+                right = width - left
+                im = im.crop((left, 0, right, height))
+                width, height = im.size
+            if height != crop_size:
+                top = (height - crop_size) / 2
+                bot = height - top
+                im = im.crop((0, top, width, bot))
+            # Handle +-1 pixel
+            im = im.resize((crop_size, crop_size), Image.ANTIALIAS)
 
         if self.resize:
             if im.size[0] != self.resize_w or im.size[1] != self.resize_h:

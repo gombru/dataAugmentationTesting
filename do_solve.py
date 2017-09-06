@@ -56,15 +56,16 @@ def do_solve(niter, solver, disp_interval, test_interval, test_iters, id):
             val_acc[it/test_interval - 1] = accuracy
             ax2.plot(it_val_axes[0:it/test_interval], val_acc[0:it/test_interval], 'g')
             plt.ion()
+            plt.title(id)
             plt.show()
             plt.pause(0.001)
 
             # Save training plot
-            title = '../../datasets/flickr_style/models/training/training-' + id + '_' + str(it) + '.png'  # Save graph to disk
+            title = '../../datasets/102flowers/training/training-' + id + '_' + str(it) + '.png'  # Save graph to disk
             savefig(title, bbox_inches='tight')
 
             #Save training data
-            outfile = '../../datasets/flickr_style/models/training_data/' + id + '.txt'
+            outfile = '../../datasets/102flowers/training_data/' + id + '.txt'
             np.savez(outfile, train_loss, train_acc, val_acc)
 
 
