@@ -1,12 +1,12 @@
 import numpy as np
 from pylab import zeros, arange, subplots, plt, savefig
 
-files = ['None-centerCropping','All','-randomCropping','-mirroring','None-HSVjitter'] #'None-resizing'
-legend = ['none, central_cropping','all','random cropping','mirroring', 'HSV jitter'] #'none, resizing'
+files = ['-All','-randomCrop','-None'] #'None-resizing'
+legend = ['-All','-randomCrop','-None'] #'none, resizing'
 colors = ['r','b','g','y','m','c','k','#f49542','#8c5219','#3df744','#f936c2','#8c1919']
-its = 40000
+its = 500
 points = 135 #135
-disp_int_used = 300
+disp_int_used = 10
 
 fig = plt.figure()
 ax1 = plt.subplot(111)
@@ -30,7 +30,7 @@ def lpf(arr):
     return arr
 
 for i, file in enumerate(files):
-    a = np.load('../../datasets/flickr_style/models/training_data/dataAugmentation' + file + '.txt.npz')
+    a = np.load('../../datasets/102flowers/training_data/dataAugmentation' + file + '.txt.npz')
     train_acc = a['arr_1'][0:points*2]
     train_acc_adapted = zeros(points)
     val_acc = zeros(points)

@@ -8,22 +8,22 @@ caffe.set_device(0)
 caffe.set_mode_gpu()
 
 #Load weights of model to be evaluated
-weights = '../../datasets/flickr_style/models/CNN/dataAugmentationAll_iter_200000.caffemodel'
+weights = '../../datasets/102flowers/snapshots/dataAugmentationAll_iter_200000.caffemodel'
 # weights = 'models/bvlc_reference_caffenet.caffemodel'
 
 #Number of image to be tested are batch size (100) * test iterations
-test_iters = 30
+test_iters = 2
 
 config = {}
 config['dir'] = '../../datasets/flickr_style'
 config['mean'] = (104, 117, 123)
-config['num_labels'] = 20
+config['num_labels'] = 102
 config['batch_size'] = 500 #AlexNet 100, VGG 40
 config['resize'] = False #Resize the image to the given size before cropping
 config['resize_w'] = 224
 config['resize_h'] = 224
 config['cropping'] = False #True
-config['always_center_crop'] = True
+config['always_center_crop'] = False
 config['crop_w'] = 224 #Train with a random crop of this size
 config['crop_h'] = 224 #227 AlexNet, 224 VGG16, Inception
 config['crop_margin'] = 0 #The crop won't include the margin in pixels

@@ -45,7 +45,7 @@ def create_solver(train_net_path, test_net_path, base_lr, id):
 
     # Snapshots are files used to store networks we've trained.  Here, we'll
     # snapshot every 10K iterations -- ten times during training.
-    s.snapshot = 20000
+    s.snapshot = 500
     s.snapshot_prefix = '../../datasets/102flowers/snapshots/' + id
 
     # Train on the GPU.  Using the CPU to train large networks is very slow.
